@@ -6,12 +6,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔌 Connect to MySQL
+// ✅ Root route (important for testing)
+app.get("/", (req, res) => {
+  res.send("Backend is working 🚀");
+});
+
+// ❗ TEMP: DB connection (will fail on Render, OK for now)
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Root",   // ⚠️ change this
-  database: "DBMSBACKEND"    // ⚠️ change this
+  password: "Root",   // change if needed
+  database: "DBMSBACKEND"
 });
 
 // Test DB connection
@@ -23,7 +28,7 @@ db.connect(err => {
   }
 });
 
-// 📦 API to get data
+// ✅ API route
 app.get("/services", (req, res) => {
   db.query("SELECT * FROM USERS", (err, result) => {
     if (err) {
@@ -34,6 +39,8 @@ app.get("/services", (req, res) => {
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
 });
