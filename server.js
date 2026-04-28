@@ -13,11 +13,12 @@ app.get("/", (req, res) => {
 
 // ❗ TEMP: DB connection (will fail on Render, OK for now)
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "Root",   // change if needed
-  database: "DBMSBACKEND"
-});
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
+});SHOUL
 
 // Test DB connection
 db.connect(err => {
