@@ -13,11 +13,10 @@ app.get("/", (req, res) => {
 
 // ❗ TEMP: DB connection (will fail on Render, OK for now)
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
+  host: "localhost",
+  user: "root",
+  password: "Root",   // change if needed
+  database: "DBMSBACKEND"
 });
 
 // Test DB connection
@@ -33,7 +32,8 @@ db.connect(err => {
 app.get("/services", (req, res) => {
   db.query("SELECT * FROM USERS", (err, result) => {
     if (err) {
-      res.send(err);
+     console.log("DB ERROR:", err);
+return res.status(500).json({ error: err.message });
     } else {
       res.json(result);
     }
